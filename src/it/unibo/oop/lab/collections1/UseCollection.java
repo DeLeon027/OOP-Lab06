@@ -28,6 +28,7 @@ public final class UseCollection {
          * from 1000 (included) to 2000 (excluded).
          */
     	final ArrayList<Integer> array = new ArrayList<>();
+    	long worldPopulation;
     	
     	for(int i=1000; i<2000;i++) {
     		array.add(i);
@@ -159,7 +160,8 @@ public final class UseCollection {
         /*
          * 8) Compute the population of the world
          */
-          long worldPopulation = 0;
+         
+          worldPopulation = 0;
           
           for(long people: world.values()) {
         	  worldPopulation+=people;

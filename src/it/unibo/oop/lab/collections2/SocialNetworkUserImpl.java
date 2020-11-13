@@ -1,7 +1,11 @@
 package it.unibo.oop.lab.collections2;
 
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -17,6 +21,8 @@ import java.util.List;
  *            Specific user type
  */
 public class SocialNetworkUserImpl<U extends User> extends UserImpl implements SocialNetworkUser<U> {
+	
+	final Map<String, Collection<U>> mappaFollowed = new HashMap<>();  
 
     /*
      * 
@@ -66,6 +72,7 @@ public class SocialNetworkUserImpl<U extends User> extends UserImpl implements S
 
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
+    	
         return false;
     }
 
