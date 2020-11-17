@@ -18,12 +18,9 @@ public class StrictBankAccount implements BankAccount {
 
     /**
      * 
-     * @param usrID
-     *            user id
-     * @param balance
-     *            initial balance
-     * @param nMaxATMTransactions
-     *            max no of ATM transactions allowed
+     * @param usrID               user id
+     * @param balance             initial balance
+     * @param nMaxATMTransactions max no of ATM transactions allowed
      */
     public StrictBankAccount(final int usrID, final double balance, final int nMaxATMTransactions) {
         this.usrID = usrID;
@@ -39,6 +36,8 @@ public class StrictBankAccount implements BankAccount {
         if (checkUser(usrID)) {
             this.balance += amount;
             incTransactions();
+        } else {
+            throw new WrongAccountHolderException();
         }
     }
 
@@ -47,9 +46,17 @@ public class StrictBankAccount implements BankAccount {
      * {@inheritDoc}
      */
     public void withdraw(final int usrID, final double amount) {
-        if (checkUser(usrID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
-            incTransactions();
+        if (checkUser(usrID)) {
+                if(isWithdrawAllowed(amount)) {
+                    this.balance -= amount;
+                    incTransactions();
+                }
+                else {
+                    throw new NotEnoughFoundsException();
+                }
+        }
+        else {
+            throw new WrongAccountHolderException();
         }
     }
 
@@ -62,6 +69,9 @@ public class StrictBankAccount implements BankAccount {
             this.deposit(usrID, amount - StrictBankAccount.ATM_TRANSACTION_FEE);
             nTransactions++;
         }
+        else {
+            
+        }
     }
 
     /**
@@ -71,6 +81,9 @@ public class StrictBankAccount implements BankAccount {
     public void withdrawFromATM(final int usrID, final double amount) {
         if (nTransactions < nMaxATMTransactions) {
             this.withdraw(usrID, amount + StrictBankAccount.ATM_TRANSACTION_FEE);
+        }
+        else {
+            
         }
     }
 
@@ -92,8 +105,7 @@ public class StrictBankAccount implements BankAccount {
 
     /**
      * 
-     * @param usrID
-     *            id of the user related to these fees
+     * @param usrID id of the user related to these fees
      */
     public void computeManagementFees(final int usrID) {
         final double feeAmount = MANAGEMENT_FEE + (nTransactions * StrictBankAccount.TRANSACTION_FEE);
@@ -104,7 +116,9 @@ public class StrictBankAccount implements BankAccount {
     }
 
     private boolean checkUser(final int id) {
+
         return this.usrID == id;
+
     }
 
     private boolean isWithdrawAllowed(final double amount) {
