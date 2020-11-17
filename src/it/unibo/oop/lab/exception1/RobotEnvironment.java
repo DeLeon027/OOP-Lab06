@@ -29,8 +29,7 @@ public class RobotEnvironment {
     /**
      * Constructs a robot environment.
      * 
-     * @param pos
-     *            set robot initial position
+     * @param pos set robot initial position
      */
     public RobotEnvironment(final RobotPosition pos) {
         this.position = pos;
@@ -39,24 +38,18 @@ public class RobotEnvironment {
     /**
      * Move the robot to a new position.
      * 
-     * @param newX
-     *            new position on X
-     * @param newY
-     *            new position on Y
-     * @return A boolean indicating if the robot moved or not (a robot can move
-     *         only inside the environment's boundaries)
+     * @param newX new position on X
+     * @param newY new position on Y
+     * @return A boolean indicating if the robot moved or not (a robot can move only
+     *         inside the environment's boundaries)
      */
-    public boolean move(final int newX, final int newY) {
-        if (newX >= RobotEnvironment.WORLD_X_LOWER_LIMIT
-                && newX <= RobotEnvironment.WORLD_X_UPPER_LIMIT
-                && newY >= RobotEnvironment.WORLD_Y_LOWER_LIMIT
-                && newY <= RobotEnvironment.WORLD_Y_UPPER_LIMIT) {
-            this.position.setX(newX);
-            this.position.setY(newY);
-            return true;
-        } else {
-            return false;
-        }
+    public void move(final int newX, final int newY) {
+        if (!(newX >= RobotEnvironment.WORLD_X_LOWER_LIMIT && newX <= RobotEnvironment.WORLD_X_UPPER_LIMIT
+                && newY >= RobotEnvironment.WORLD_Y_LOWER_LIMIT && newY <= RobotEnvironment.WORLD_Y_UPPER_LIMIT)) {
+            throw new PositionOutOfBoundException(newX, newY);
+        } 
+        this.position.setX(newX);
+        this.position.setY(newY);
     }
 
     /**
